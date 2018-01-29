@@ -11,15 +11,9 @@ module.exports = ({
   didControlPass = noop,
   didControlTake = noop,
   targetAppId = 263902037430900, // App Id of Page Inbox
-} = {}) => async context => {
+} = {}) => async (context, next) => {
   if (context.platform !== 'messenger') {
-    return;
-  }
-
-  if (context.event.isPassThreadControl) {
-    didControlPass(context);
-  } else if (context.event.isTakeThreadControl) {
-    didControlTake(context);
+    return next();
   }
 
   const pass = shouldControlPass(context);
@@ -31,10 +25,30 @@ module.exports = ({
   }
 
   if (pass) {
-    willControlPass(context);
-    await context.passThreadControl(targetAppId);
+    try {
+      await willControlPass(context);
+    } catch (err) {
+      console.error(err);
+    }
+    try {
+      await context.passThreadControl(targetAppId);
+      await didControlPass(context);
+    } catch (err) {
+      console.error(err);
+    }
   } else if (take) {
-    willControlTake(context);
-    await context.takeThreadControl();
+    try {
+      await willControlTake(context);
+    } catch (err) {
+      console.error(err);
+    }
+    try {
+      await context.takeThreadControl();
+      await didControlTake(context);
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    return next();
   }
 };

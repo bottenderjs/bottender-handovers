@@ -1,4 +1,4 @@
-const { MessengerBot } = require('bottender');
+const { MessengerBot, middleware } = require('bottender');
 const { createServer } = require('bottender/express');
 
 const handovers = require('../../src');
@@ -23,12 +23,16 @@ const handleHandovers = handovers({
 });
 
 // This bot should be assigned as primary receiver app
-bot.onEvent(async context => {
-  await handleHandovers(context);
-  if (!context.event.isStandby && context.event.isMessage) {
-    await context.sendText('Respond by bot.');
-  }
-});
+bot.onEvent(
+  middleware([
+    handleHandovers,
+    async context => {
+      if (!context.event.isStandby && context.event.isMessage) {
+        await context.sendText('Respond by bot.');
+      }
+    },
+  ])
+);
 
 const server = createServer(bot, { verifyToken: config.verifyToken });
 

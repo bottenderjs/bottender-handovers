@@ -21,11 +21,6 @@ module.exports = {
           call_to_actions: [
             {
               type: 'postback',
-              title: 'Restart',
-              payload: '__RESTARTED__',
-            },
-            {
-              type: 'postback',
               title: 'Switch Human/Bot',
               payload: '__SWITCH_HUMAN_OR_BOT__',
             },

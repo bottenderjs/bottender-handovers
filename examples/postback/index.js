@@ -1,4 +1,4 @@
-const { MessengerBot } = require('bottender');
+const { MessengerBot, middleware } = require('bottender');
 const { createServer } = require('bottender/express');
 
 const handovers = require('../../src');
@@ -10,25 +10,40 @@ const bot = new MessengerBot({
   appSecret: config.appSecret,
 });
 
+bot.setInitialState({
+  isStandby: false,
+});
+
 const handleHandovers = handovers({
-  shouldControlPass: context => context.event.text === '/help',
+  shouldControlPass: context =>
+    !context.state.isStandby &&
+    context.event.payload === '__SWITCH_HUMAN_OR_BOT__',
   shouldControlTake: context =>
-    context.event.isStandby && context.event.text === '/back',
+    context.state.isStandby &&
+    context.event.payload === '__SWITCH_HUMAN_OR_BOT__',
   willControlPass: async context => {
     await context.sendText('Passing thread control to the page inbox.');
   },
+  didControlPass: async context => {
+    context.setState({ isStandby: true });
+  },
   didControlTake: async context => {
+    context.setState({ isStandby: false });
     await context.sendText('Took thread control back.');
   },
 });
 
 // This bot should be assigned as primary receiver app
-bot.onEvent(async context => {
-  await handleHandovers(context);
-  if (!context.event.isStandby && context.event.isMessage) {
-    await context.sendText('Respond by bot.');
-  }
-});
+bot.onEvent(
+  middleware([
+    handleHandovers,
+    async context => {
+      if (!context.event.isStandby && context.event.isMessage) {
+        await context.sendText('Respond by bot.');
+      }
+    },
+  ])
+);
 
 const server = createServer(bot, { verifyToken: config.verifyToken });
 
