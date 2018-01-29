@@ -70,7 +70,7 @@ Default: `() => {}`.
 
 ### targetAppId
 
-Default: `263902037430900`.
+Default: `263902037430900` (Page Inbox).
 
 ## License
 
