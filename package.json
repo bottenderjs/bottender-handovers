@@ -1,6 +1,6 @@
 {
   "name": "bottender-handovers",
-  "description": "An experimental for Messenger Handover Protocol with Bottender.",
+  "description": "An experimental package for Messenger Handover Protocol with Bottender.",
   "license": "MIT",
   "version": "0.1.0",
   "main": "src/index.js",
