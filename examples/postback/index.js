@@ -1,7 +1,6 @@
 const { MessengerBot, middleware } = require('bottender');
 const { createServer } = require('bottender/express');
-
-const handovers = require('../../src');
+const handovers = require('bottender-handovers');
 
 const config = require('./bottender.config').messenger;
 

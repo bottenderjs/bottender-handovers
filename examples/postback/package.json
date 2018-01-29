@@ -4,7 +4,8 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "bottender": "latest"
+    "bottender": "latest",
+    "bottender-handovers": "latest"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
