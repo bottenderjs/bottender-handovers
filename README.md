@@ -35,7 +35,10 @@ bot.onEvent(
   middleware([
     handleHandovers,
     async context => {
-      if (!context.event.isStandby && context.event.isMessage) {
+      if (
+        !context.event.isStandby &&
+        (context.event.isMessage || context.event.isPayload)
+      ) {
         await context.sendText('Respond by bot.');
       }
     },
