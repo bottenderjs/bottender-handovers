@@ -3,11 +3,9 @@ const warning = require('warning');
 const alwaysFalse = () => false;
 const noop = () => {};
 
-const isRequestControlFrom = appId => context =>
+const isRequestThreadControlFrom = appId => context =>
   context.event.isRequestThreadControl &&
   context.event.requestThreadControl.requested_owner_app_id === appId;
-
-const isRequestControlFromInbox = isRequestControlFrom(263902037430900);
 
 module.exports = ({
   shouldControlPass = alwaysFalse,
@@ -59,5 +57,4 @@ module.exports = ({
   }
 };
 
-module.exports.isRequestControlFrom = isRequestControlFrom;
-module.exports.isRequestControlFromInbox = isRequestControlFromInbox;
+module.exports.isRequestThreadControlFrom = isRequestThreadControlFrom;
