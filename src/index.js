@@ -7,6 +7,19 @@ const isRequestThreadControlFrom = appId => context =>
   context.event.isRequestThreadControl &&
   context.event.requestThreadControl.requested_owner_app_id === appId;
 
+const hasThreadControl = async (
+  context,
+  fallback = _context => _context.state.isBot
+) => {
+  try {
+    const data = await context.getThreadOwner();
+    return data.app_id === process.env.APP_ID;
+  } catch (error) {
+    console.error(error);
+    return fallback(context);
+  }
+};
+
 module.exports = ({
   shouldControlPass = alwaysFalse,
   shouldControlTake = alwaysFalse,
@@ -58,3 +71,4 @@ module.exports = ({
 };
 
 module.exports.isRequestThreadControlFrom = isRequestThreadControlFrom;
+module.exports.hasThreadControl = hasThreadControl;
