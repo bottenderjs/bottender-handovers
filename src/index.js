@@ -7,6 +7,9 @@ const isRequestThreadControlFrom = appId => context =>
   context.event.isRequestThreadControl &&
   context.event.requestThreadControl.requested_owner_app_id === appId;
 
+const isRequestThreadControlFromPageInbox = context =>
+  context.event.isRequestThreadControlFromPageInbox;
+
 module.exports = ({
   shouldControlPass = alwaysFalse,
   shouldControlTake = alwaysFalse,
@@ -58,3 +61,4 @@ module.exports = ({
 };
 
 module.exports.isRequestThreadControlFrom = isRequestThreadControlFrom;
+module.exports.isRequestThreadControlFromPageInbox = isRequestThreadControlFromPageInbox;

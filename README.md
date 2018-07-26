@@ -50,7 +50,10 @@ bot.onEvent(
 ```js
 const { middleware } = require('bottender');
 const handovers = require('bottender-handovers');
-const { isRequestThreadControlFrom } = handovers;
+const {
+  isRequestThreadControlFrom,
+  isRequestThreadControlFromPageInbox,
+} = handovers;
 
 // request from and pass to 3rd party CRM service
 const myCRMAppId = 123456;
@@ -61,8 +64,7 @@ const handleHandovers = handovers({
 
 // request from and pass to Facebook Page Inbox
 const handleHandovers = handovers({
-  shouldControlPass: context =>
-    context.event.isRequestThreadControlFromPageInbox,
+  shouldControlPass: isRequestThreadControlFromPageInbox,
 });
 ```
 
