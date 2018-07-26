@@ -50,7 +50,7 @@ bot.onEvent(
 ```js
 const { middleware } = require('bottender');
 const handovers = require('bottender-handovers');
-const { isRequestThreadControlFrom } = require('bottender-handovers');
+const { isRequestThreadControlFrom } = handovers;
 
 // request from and pass to 3rd party CRM service
 const myCRMAppId = 123456;
