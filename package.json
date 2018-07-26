@@ -2,7 +2,7 @@
   "name": "bottender-handovers",
   "description": "An experimental package for Messenger Handover Protocol with Bottender.",
   "license": "MIT",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "src/index.js",
   "scripts": {
     "precommit": "lint-staged",
