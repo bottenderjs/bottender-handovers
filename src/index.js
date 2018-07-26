@@ -20,8 +20,8 @@ module.exports = ({
     return next();
   }
 
-  const pass = shouldControlPass(context);
-  const take = shouldControlTake(context);
+  const pass = await shouldControlPass(context);
+  const take = await shouldControlTake(context);
 
   if (pass && take) {
     warning(false, 'can not pass and take thread control at the same time');
