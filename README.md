@@ -17,11 +17,15 @@ npm install bottender-handovers
 ```js
 const { middleware } = require('bottender');
 const handovers = require('bottender-handovers');
+const { hasThreadControl } = require('bottender-handovers');
 
 const handleHandovers = handovers({
-  shouldControlPass: context => context.event.text === '/help',
-  shouldControlTake: context =>
-    context.event.isStandby && context.event.text === '/back',
+  shouldControlPass: async context =>
+    context.event.text === '/help' && hasThreadControl(context),
+  shouldControlTake: async context =>
+    context.event.isStandby &&
+    context.event.text === '/back' &&
+    !hasThreadControl(context),
   willControlPass: async context => {
     await context.sendText('Passing thread control to the page inbox.');
   },
